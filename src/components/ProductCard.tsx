@@ -18,7 +18,7 @@ export function ProductCard({ product: p }: { product: Product }) {
     <article className="flex flex-col overflow-hidden rounded-[18px] border border-line bg-card">
       <Link href={productHref(p)} className="flex flex-col text-ink">
         <span className="relative">
-          <ProductThumb product={p} className={`aspect-[4/3] w-full ${out ? "opacity-60" : ""}`} />
+          <ProductThumb product={p} className={`aspect-square w-full ${out ? "opacity-60" : ""}`} />
           <ConditionBadge condition={p.condition} className="absolute top-2.5 right-2.5" />
           <DiscountBadge product={p} className="absolute top-2.5 left-2.5" />
           {out && (
@@ -58,7 +58,7 @@ export function ProductCard({ product: p }: { product: Product }) {
 export function ProductCardSkeleton() {
   return (
     <div className="overflow-hidden rounded-[18px] border border-line bg-card">
-      <div className="skeleton aspect-[4/3] w-full" />
+      <div className="skeleton aspect-square w-full" />
       <div className="flex flex-col gap-2 p-3">
         <div className="skeleton h-4 w-4/5 rounded" />
         <div className="skeleton h-3 w-3/5 rounded" />

@@ -195,7 +195,7 @@ export default function ProductView() {
             {similar.map((s) => (
               <Link key={s.id} href={productHref(s)} className="flex w-[168px] shrink-0 flex-col overflow-hidden rounded-2xl border border-line bg-card text-ink">
                 <span className="relative">
-                  <ProductThumb product={s} size="sm" className="h-[100px] w-full" />
+                  <ProductThumb product={s} size="sm" className="aspect-square w-full" />
                   <ConditionBadge condition={s.condition} className="absolute top-2 right-2" />
                   <DiscountBadge product={s} className="absolute top-2 left-2" />
                 </span>
@@ -259,7 +259,7 @@ function Gallery({ product: p }: { product: Product }) {
           <div
             ref={ref}
             onScroll={(e) => setI(Math.round(Math.abs(e.currentTarget.scrollLeft) / e.currentTarget.clientWidth))}
-            className="no-scrollbar flex aspect-[4/3] snap-x snap-mandatory overflow-x-auto bg-tile md:rounded-3xl"
+            className="no-scrollbar flex aspect-square snap-x snap-mandatory overflow-x-auto bg-tile md:rounded-3xl"
           >
             {imgs.map((im, n) => (
               // eslint-disable-next-line @next/next/no-img-element
@@ -274,7 +274,7 @@ function Gallery({ product: p }: { product: Product }) {
             ))}
           </div>
         ) : (
-          <div className="flex aspect-[4/3] items-center justify-center bg-tile md:rounded-3xl">
+          <div className="flex aspect-square items-center justify-center bg-tile md:rounded-3xl">
             <ProductPlaceholder kind={p.kind} size="lg" />
           </div>
         )}

@@ -110,7 +110,7 @@ export default function HomeView() {
                   className="flex w-[150px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-line bg-card text-ink"
                 >
                   <span className="relative">
-                    <ProductThumb product={p} size="sm" className="h-[104px] w-full" />
+                    <ProductThumb product={p} size="sm" className="aspect-square w-full" />
                     <DiscountBadge product={p} className="absolute top-2 left-2" />
                   </span>
                   <span className="flex flex-col gap-1 p-2.5">
