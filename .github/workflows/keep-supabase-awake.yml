@@ -1,0 +1,21 @@
+# Supabase pauses free projects after 7 days without activity.
+# This free GitHub job reads the public store settings once a day so the
+# database stays awake even when the store has few visitors.
+# (The URL and publishable key below are public; they are also inside the website.)
+name: Keep Supabase awake
+
+on:
+  schedule:
+    - cron: "17 6 * * *" # every day 06:17 UTC
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Read public settings
+        run: |
+          curl --fail --silent --show-error --max-time 30 \
+            "https://jepdiaucnxipckjfcbwy.supabase.co/rest/v1/settings?select=id" \
+            -H "apikey: sb_publishable_AZgqeHuhajFG-sWzFN_acg_9NWjlVuO"
