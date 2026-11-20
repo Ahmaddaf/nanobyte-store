@@ -31,7 +31,8 @@ create table public.staff_invites (
   email      text primary key check (email = lower(email) and email like '%_@_%'),
   role       public.staff_role not null default 'staff',
   name       text,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  used_at    timestamptz
 );
 
 create or replace function public.is_staff() returns boolean
@@ -54,7 +55,8 @@ create or replace function public.gate_signup() returns trigger
 language plpgsql security definer set search_path = '' as $$
 begin
   if new.email is null
-     or not exists (select 1 from public.staff_invites i where i.email = lower(new.email)) then
+     or not exists (select 1 from public.staff_invites i
+                    where i.email = lower(new.email) and i.used_at is null) then
     raise exception 'signup_not_allowed' using errcode = '42501';
   end if;
   return new;
@@ -72,10 +74,11 @@ begin
   insert into public.staff (user_id, email, name, role)
   select new.id, lower(new.email), i.name, i.role
   from public.staff_invites i
-  where i.email = lower(new.email)
+  where i.email = lower(new.email) and i.used_at is null
   on conflict (user_id) do nothing;
 
-  delete from public.staff_invites where email = lower(new.email);
+  update public.staff_invites set used_at = now()
+  where email = lower(new.email) and used_at is null;
   return new;
 end;
 $$;
@@ -98,9 +101,10 @@ begin
   insert into public.staff (user_id, email, name, role)
   select auth.uid(), v_email, i.name, i.role
   from public.staff_invites i
-  where i.email = v_email
+  where i.email = v_email and i.used_at is null
   on conflict (user_id) do nothing;
-  delete from public.staff_invites where email = v_email;
+  update public.staff_invites set used_at = now()
+  where email = v_email and used_at is null;
   return (select role::text from public.staff where user_id = auth.uid());
 end;
 $$;
@@ -439,16 +443,26 @@ create policy "orders: admin delete" on public.orders
   for delete to authenticated using (public.is_admin());
 
 -- ---------------------------------------------------------------------------
+-- Table privileges (explicit, least privilege; RLS above still applies)
+-- ---------------------------------------------------------------------------
+grant usage on schema public to anon, authenticated;
+grant select on public.categories, public.products, public.product_images, public.banners, public.settings to anon;
+grant select, insert, update, delete on
+  public.categories, public.products, public.product_images, public.banners,
+  public.orders, public.staff, public.staff_invites to authenticated;
+grant select, update on public.settings to authenticated;
+grant usage, select on sequence public.product_sku_seq to authenticated;
+grant execute on function public.is_staff(), public.is_admin(), public.my_role() to anon, authenticated;
+grant execute on function public.create_order(jsonb, text, text, text, text, text) to anon, authenticated;
+grant execute on function public.adjust_prices(numeric, uuid, int) to authenticated;
+grant execute on function public.claim_invite() to authenticated;
+
+-- ---------------------------------------------------------------------------
 -- Function permissions
 -- ---------------------------------------------------------------------------
-revoke all on function public.create_order(jsonb, text, text, text, text, text) from public;
 grant execute on function public.create_order(jsonb, text, text, text, text, text) to anon, authenticated;
-revoke all on function public.adjust_prices(numeric, uuid, int) from public, anon;
 grant execute on function public.adjust_prices(numeric, uuid, int) to authenticated;
-revoke all on function public.claim_invite() from public, anon;
 grant execute on function public.claim_invite() to authenticated;
-revoke all on function public.gate_signup() from public, anon, authenticated;
-revoke all on function public.handle_new_staff() from public, anon, authenticated;
 
 -- ---------------------------------------------------------------------------
 -- Image storage: public bucket, staff-only uploads, images only, max 2 MB
