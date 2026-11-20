@@ -258,7 +258,7 @@ function Gallery({ product: p }: { product: Product }) {
           <div
             ref={ref}
             onScroll={(e) => setI(Math.round(Math.abs(e.currentTarget.scrollLeft) / e.currentTarget.clientWidth))}
-            className="no-scrollbar flex aspect-square snap-x snap-mandatory overflow-x-auto bg-tile md:rounded-3xl"
+            className="no-scrollbar flex aspect-square snap-x snap-mandatory overflow-x-auto bg-white md:rounded-3xl"
           >
             {imgs.map((im, n) => (
               // eslint-disable-next-line @next/next/no-img-element
@@ -295,7 +295,7 @@ function Gallery({ product: p }: { product: Product }) {
               className={`size-[58px] shrink-0 overflow-hidden rounded-xl bg-tile ${n === i ? "border-2 border-primary" : "border border-line"}`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={imageUrl(im.thumb || im.path) ?? ""} alt="" loading="lazy" className="size-full object-cover" />
+              <img src={imageUrl(im.thumb || im.path) ?? ""} alt="" loading="lazy" className="size-full bg-white object-contain" />
             </button>
           ))}
         </div>

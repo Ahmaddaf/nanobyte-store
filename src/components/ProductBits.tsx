@@ -37,10 +37,10 @@ export function ProductThumb({
   const img = product.images[0];
   const src = imageUrl(full ? img?.path : img?.thumb || img?.path);
   return (
-    <span className={`relative flex items-center justify-center overflow-hidden bg-tile ${className}`}>
+    <span className={`relative flex items-center justify-center overflow-hidden ${src ? "bg-white" : "bg-tile"} ${className}`}>
       {src ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={src} alt={product.name} loading="lazy" decoding="async" className="size-full object-cover" />
+        <img src={src} alt={product.name} loading="lazy" decoding="async" className="size-full object-contain" />
       ) : (
         <ProductPlaceholder kind={product.kind} size={size} />
       )}
