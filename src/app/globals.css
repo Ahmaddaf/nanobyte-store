@@ -1,0 +1,144 @@
+@import "tailwindcss";
+@import "@fontsource-variable/readex-pro/wght.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #f6f5fb;
+  --card: #ffffff;
+  --ink: #16132e;
+  --muted: #5e5a78;
+  --faint: #6e6a88;
+  --line: #e7e4f2;
+  --tint: #efeafe;
+  --tile: #eeebf9;
+  --field: #f1eff8;
+  --primary: #5b1de3;
+  --primary-dark: #4515c2;
+  --primary-ink: #5b1de3;
+  --on-tint: #4515c2;
+  --magenta: #b003e9;
+  --green: #0e7a3c;
+  --green-ink: #0e7a3c;
+  --green-bg: #e5f4ea;
+  --amber-bg: #fff1dc;
+  --amber-ink: #8a4b00;
+  --blue-bg: #e8eaff;
+  --blue-ink: #1e26c4;
+  --teal-bg: #dff4f0;
+  --teal-ink: #0b6357;
+  --red-bg: #fde8e8;
+  --red-ink: #9b1c1c;
+  --art: #b6afd8;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0f0d1e;
+  --card: #1a1730;
+  --ink: #f1effa;
+  --muted: #b3aecb;
+  --faint: #9c97b6;
+  --line: #2e2a4a;
+  --tint: #2a2150;
+  --tile: #221e3b;
+  --field: #221e3b;
+  --primary: #6230f0;
+  --primary-dark: #7a4ff5;
+  --primary-ink: #b49bff;
+  --on-tint: #cbb9ff;
+  --magenta: #b003e9;
+  --green: #0e7a3c;
+  --green-ink: #5fd68f;
+  --green-bg: #12301f;
+  --amber-bg: #3a2a10;
+  --amber-ink: #f6c071;
+  --blue-bg: #1d2150;
+  --blue-ink: #aab1ff;
+  --teal-bg: #0f302b;
+  --teal-ink: #6fd8c6;
+  --red-bg: #3b1518;
+  --red-ink: #ff9b9b;
+  --art: #5d5689;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-tint: var(--tint);
+  --color-tile: var(--tile);
+  --color-field: var(--field);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-ink: var(--primary-ink);
+  --color-on-tint: var(--on-tint);
+  --color-magenta: var(--magenta);
+  --color-green: var(--green);
+  --color-green-ink: var(--green-ink);
+  --color-green-bg: var(--green-bg);
+  --color-amber-bg: var(--amber-bg);
+  --color-amber-ink: var(--amber-ink);
+  --color-blue-bg: var(--blue-bg);
+  --color-blue-ink: var(--blue-ink);
+  --color-teal-bg: var(--teal-bg);
+  --color-teal-ink: var(--teal-ink);
+  --color-red-bg: var(--red-bg);
+  --color-red-ink: var(--red-ink);
+  --color-art: var(--art);
+  --font-sans: "Readex Pro Variable", system-ui, "Segoe UI", Tahoma, sans-serif;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+  text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+.ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.brand-gradient {
+  background: linear-gradient(135deg, #2830e8 0%, #6b19e7 55%, #b003e9 100%);
+}
+
+/* Room for the fixed bottom bars + the phone's home indicator */
+.pb-nav {
+  padding-bottom: calc(88px + env(safe-area-inset-bottom));
+}
+.safe-bottom {
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+}
+
+@keyframes skeleton {
+  0% { opacity: 0.55; }
+  50% { opacity: 1; }
+  100% { opacity: 0.55; }
+}
+.skeleton {
+  background: var(--tile);
+  animation: skeleton 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+  * { scroll-behavior: auto !important; }
+}
