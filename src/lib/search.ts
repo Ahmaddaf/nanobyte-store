@@ -33,13 +33,43 @@ const BRAND_ALIASES: Record<string, string> = {
   msi: "ام اس اي",
 };
 
+/** How people type product words in Arabic, so "زيون كوادرو" finds "Xeon … Quadro". */
 const WORD_ALIASES: [RegExp, string][] = [
   [/\bram\b/, "رام ذاكره"],
   [/\bssd\b/, "اس اس دي هارد"],
   [/\bhdd\b/, "هارد"],
+  [/\bnvme\b/, "ان في مي"],
   [/\bi3\b/, "كور اي 3"],
   [/\bi5\b/, "كور اي 5"],
   [/\bi7\b/, "كور اي 7"],
+  [/\bi9\b/, "كور اي 9"],
+  [/\bintel\b/, "انتل"],
+  [/\bxeon\b/, "زيون"],
+  [/\bryzen\b/, "رايزن"],
+  [/\bamd\b/, "اي ام دي"],
+  [/\bceleron\b/, "سيليرون"],
+  [/\bpentium\b/, "بنتيوم"],
+  [/\bnvidia\b/, "انفيديا نفيديا"],
+  [/\bquadro\b/, "كوادرو كرت شاشه"],
+  [/\bgeforce\b/, "جيفورس كرت شاشه"],
+  [/\brtx\b/, "ار تي اكس"],
+  [/\bgtx\b/, "جي تي اكس"],
+  [/\bradeon\b/, "راديون"],
+  [/\bprecision\b/, "بريسيجن بريسيشن"],
+  [/\blatitude\b/, "لاتيتيود"],
+  [/\belitebook\b/, "اليت بوك اليتبوك"],
+  [/\bprobook\b/, "برو بوك بروبوك"],
+  [/\bthinkpad\b/, "ثينك باد ثنك باد"],
+  [/\bideapad\b/, "ايديا باد"],
+  [/\binspiron\b/, "انسبايرون"],
+  [/\bvostro\b/, "فوسترو"],
+  [/\bxps\b/, "اكس بي اس"],
+  [/\bmacbook\b/, "ماك بوك"],
+  [/\bsurface\b/, "سيرفس"],
+  [/\bworkstation\b/, "ورك ستيشن وركستيشن"],
+  [/\bgaming\b/, "جيمنج قيمنق العاب"],
+  [/\b(fhd|1080p)\b/, "فل اتش دي"],
+  [/\btouch\b/, "تاتش لمس"],
 ];
 
 export function haystack(p: Product, categories: Category[]): string {
