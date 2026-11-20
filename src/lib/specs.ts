@@ -1,5 +1,5 @@
 import type { Kind, Product } from "./types";
-import { CONDITION_LABEL, formatStorage, genLabel } from "./format";
+import { formatStorage, genLabel } from "./format";
 
 export const KIND_LABEL: Record<Kind, string> = {
   laptop: "لابتوب",
@@ -74,7 +74,6 @@ export function specRows(p: Product): SpecRow[] {
       if (v) rows.push({ icon: ATTR_ICON[f.key] ?? "tag", label: f.label, value: v });
     }
   }
-  if (p.condition) rows.push({ icon: "laptop", label: "الحالة", value: CONDITION_LABEL[p.condition] });
   rows.push({ icon: "shield", label: "الضمان", value: p.warranty?.trim() || "يُحدد عند البيع" });
   return rows;
 }

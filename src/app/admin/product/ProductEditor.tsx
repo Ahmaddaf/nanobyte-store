@@ -22,7 +22,7 @@ import { validateImage } from "@/lib/image";
 import { imageUrl } from "@/lib/supabase";
 import { KIND_FIELDS, KIND_LABEL } from "@/lib/specs";
 import { discountPercent } from "@/lib/format";
-import type { Condition, Kind, Product } from "@/lib/types";
+import type { Kind, Product } from "@/lib/types";
 import { AdminShell, useAdmin } from "@/components/admin/AdminShell";
 import { Button, Card, Field, MoneyInput, Notice, Segmented, Select, Spinner, TextArea, TextInput, Toggle } from "@/components/admin/ui";
 import { ProductCard } from "@/components/ProductCard";
@@ -40,7 +40,7 @@ const GPUS = ["Intel UHD", "Intel UHD 620", "Intel Iris Xe", "AMD Radeon", "NVID
 
 /** category slug that fits each kind (used to pre-select the section) */
 const KIND_CAT: Record<Kind, string> = {
-  laptop: "used-laptops",
+  laptop: "laptops",
   accessory: "accessories",
   part: "parts",
   charger: "chargers",
@@ -65,7 +65,7 @@ function emptyDraft(): ProductDraft {
     gpu: null,
     screen: null,
     battery: null,
-    condition: "used",
+    condition: null,
     warranty: null,
     attrs: {},
     price: null,
@@ -120,7 +120,7 @@ function Editor({ id }: { id: string | null }) {
         if (!id)
           setDraft((d) => {
             if (!d || d.category_id) return d;
-            const slug = d.kind === "laptop" ? (d.condition === "new" ? "new-laptops" : "used-laptops") : KIND_CAT[d.kind];
+            const slug = KIND_CAT[d.kind];
             return { ...d, category_id: cs.find((x) => x.slug === slug)?.id ?? null };
           });
       })
@@ -159,26 +159,8 @@ function Editor({ id }: { id: string | null }) {
   function changeKind(k: Kind) {
     setDraft((d) => {
       if (!d) return d;
-      const slug = k === "laptop" ? (d.condition === "new" ? "new-laptops" : "used-laptops") : KIND_CAT[k];
-      const cat = cats.find((c) => c.slug === slug);
-      // accessories etc. are usually new; laptops keep what was chosen
-      const condition: Condition | null = k === "laptop" ? d.condition : d.kind === "laptop" ? "new" : d.condition;
-      return { ...d, kind: k, category_id: cat?.id ?? d.category_id, condition };
-    });
-  }
-
-  function changeCondition(c: Condition) {
-    setDraft((d) => {
-      if (!d) return d;
-      let category_id = d.category_id;
-      // keep "new" laptops in the new section and used/refurbished in the used one
-      if (d.kind === "laptop") {
-        const current = cats.find((x) => x.id === d.category_id)?.slug;
-        if (!current || current === "new-laptops" || current === "used-laptops") {
-          category_id = cats.find((x) => x.slug === (c === "new" ? "new-laptops" : "used-laptops"))?.id ?? d.category_id;
-        }
-      }
-      return { ...d, condition: c, category_id };
+      const cat = cats.find((c) => c.slug === KIND_CAT[k]);
+      return { ...d, kind: k, category_id: cat?.id ?? d.category_id };
     });
   }
 
@@ -373,18 +355,7 @@ function Editor({ id }: { id: string | null }) {
             </Select>
           </Field>
         </div>
-        <Field label="الحالة">
-            <Segmented<Condition>
-              label="الحالة"
-              value={d.condition}
-              onChange={changeCondition}
-              options={[
-                { value: "new", label: "جديد" },
-                { value: "used", label: "مستعمل" },
-                { value: "refurb", label: "مجدد" },
-              ]}
-            />
-          </Field>
+
       </Card>
 
       <Card title="المواصفات" sub="الحقول تتغير حسب نوع المنتج">
@@ -667,6 +638,7 @@ function cleanDraft(d: ProductDraft): ProductDraft {
   const t = (v: string | null) => (v && v.trim() ? v.trim() : null);
   const out: ProductDraft = {
     ...d,
+    condition: null,
     name: d.name.trim(),
     brand: t(d.brand),
     warranty: t(d.warranty),

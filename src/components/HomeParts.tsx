@@ -47,7 +47,7 @@ export function SearchBar({ initial = "", autoFocus = false, onSubmit }: { initi
 
 const DEFAULT_BANNER: Banner = {
   id: "default",
-  title: "لابتوبات جديدة ومستعملة، إكسسوارات وقطع غيار",
+  title: "لابتوبات، إكسسوارات، قطع غيار وصيانة",
   subtitle: "نانو بايت تكنولوجي — أم درمان",
   image: null,
   link: "/shop/",

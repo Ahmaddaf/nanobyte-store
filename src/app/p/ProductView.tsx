@@ -12,7 +12,7 @@ import { imageUrl } from "@/lib/supabase";
 import { productMessage, productUrl, waLink } from "@/lib/whatsapp";
 import type { Product } from "@/lib/types";
 import { CartButton, TopBar } from "@/components/Chrome";
-import { ConditionBadge, DiscountBadge, Price, ProductPlaceholder, ProductThumb, SpecText } from "@/components/ProductBits";
+import { DiscountBadge, Price, ProductPlaceholder, ProductThumb, SpecText } from "@/components/ProductBits";
 import { productHref } from "@/components/ProductCard";
 import { ChatIcon, SPEC_ICONS } from "@/components/icons";
 import { StoreNotice } from "@/components/HomeParts";
@@ -196,7 +196,6 @@ export default function ProductView() {
               <Link key={s.id} href={productHref(s)} className="flex w-[168px] shrink-0 flex-col overflow-hidden rounded-2xl border border-line bg-card text-ink">
                 <span className="relative">
                   <ProductThumb product={s} size="sm" className="aspect-square w-full" />
-                  <ConditionBadge condition={s.condition} className="absolute top-2 right-2" />
                   <DiscountBadge product={s} className="absolute top-2 left-2" />
                 </span>
                 <span className="flex flex-col gap-1 p-2.5">
@@ -278,7 +277,6 @@ function Gallery({ product: p }: { product: Product }) {
             <ProductPlaceholder kind={p.kind} size="lg" />
           </div>
         )}
-        <ConditionBadge condition={p.condition} className="absolute top-3.5 right-3.5 text-[13px]" />
         <DiscountBadge product={p} className="absolute top-3.5 left-3.5 text-[13px]" />
         {imgs.length > 1 && (
           <span className="ltr absolute bottom-3.5 left-3.5 rounded-lg bg-black/70 px-2.5 py-1 text-xs font-medium text-white">

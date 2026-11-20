@@ -5,7 +5,7 @@ import { Check, Plus } from "lucide-react";
 import { useState } from "react";
 import { addToCart } from "@/lib/cart";
 import type { Product } from "@/lib/types";
-import { ConditionBadge, DiscountBadge, Price, ProductThumb, SpecText } from "./ProductBits";
+import { DiscountBadge, Price, ProductThumb, SpecText } from "./ProductBits";
 
 export function productHref(p: Product) {
   return `/p/?id=${encodeURIComponent(p.sku)}`;
@@ -19,7 +19,6 @@ export function ProductCard({ product: p }: { product: Product }) {
       <Link href={productHref(p)} className="flex flex-col text-ink">
         <span className="relative">
           <ProductThumb product={p} className={`aspect-square w-full ${out ? "opacity-60" : ""}`} />
-          <ConditionBadge condition={p.condition} className="absolute top-2.5 right-2.5" />
           <DiscountBadge product={p} className="absolute top-2.5 left-2.5" />
           {out && (
             <span className="absolute inset-x-2.5 bottom-2.5 rounded-lg bg-ink/80 py-1 text-center text-xs font-semibold text-bg">

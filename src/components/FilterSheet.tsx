@@ -2,9 +2,9 @@
 
 import { X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { CONDITION_LABEL, genLabel } from "@/lib/format";
+import { genLabel } from "@/lib/format";
 import { applyFilters, facetValues, storageKey, type Filters } from "@/lib/search";
-import type { Category, Condition, Product } from "@/lib/types";
+import type { Category, Product } from "@/lib/types";
 
 interface Props {
   open: boolean;
@@ -38,7 +38,6 @@ export function FilterSheet({ open, onClose, products, categories, hay, filters,
     const base = (skip: keyof Filters) => applyFilters(products, draft, categories, hay, skip);
     return {
       brand: facetValues(base("brand"), (p) => p.brand).sort(),
-      cond: facetValues(base("cond"), (p) => p.condition) as Condition[],
       cpu: facetValues(base("cpu"), (p) => p.cpu_family).sort(),
       gen: facetValues(base("gen"), (p) => p.cpu_gen).sort(numSort),
       ram: facetValues(base("ram"), (p) => (p.ram_gb ? String(p.ram_gb) : null)).sort(numSort),
@@ -92,7 +91,6 @@ export function FilterSheet({ open, onClose, products, categories, hay, filters,
 
         <div className="flex flex-col gap-6 overflow-y-auto px-4 py-5">
           {group("الشركة", "brand", facets.brand)}
-          {group("حالة الجهاز", "cond", facets.cond, (v) => CONDITION_LABEL[v as Condition] ?? v)}
           {group("المعالج", "cpu", facets.cpu)}
           {group("جيل المعالج", "gen", facets.gen, genLabel)}
           {group("الرام", "ram", facets.ram, (v) => `${v}GB`)}

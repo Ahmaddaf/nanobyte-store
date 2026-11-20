@@ -1,5 +1,5 @@
 import type { Category, Product } from "./types";
-import { CONDITION_LABEL, discountPercent, formatStorage } from "./format";
+import { discountPercent, formatStorage } from "./format";
 import { KIND_LABEL } from "./specs";
 
 /** Arabic + Latin normalisation so "لينوفو", "Lenovo" and "lenovo" all match. */
@@ -87,7 +87,6 @@ export function haystack(p: Product, categories: Category[]): string {
     p.storage_gb ? `${p.storage_type ?? ""} ${formatStorage(p.storage_gb)}` : "",
     p.gpu,
     p.screen,
-    p.condition ? CONDITION_LABEL[p.condition] : "",
     KIND_LABEL[p.kind],
     cat,
     ...Object.values(p.attrs ?? {}),
