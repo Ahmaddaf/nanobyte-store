@@ -1,5 +1,7 @@
 # متجر نانو بايت تكنولوجي — NANO BYTE Store
 
+**الرابط:** https://nanobyte-store.pages.dev — **لوحة التحكم:** https://nanobyte-store.pages.dev/admin/
+
 متجر إلكتروني لمحل **نانو بايت تكنولوجي** في أم درمان (الشهداء — عمارة الهانم).
 يفتح على الهاتف كأنه تطبيق تسوق، والطلب يتم عبر واتساب.
 
@@ -50,6 +52,15 @@ NEXT_PUBLIC_DEMO=1 npm run dev
 
 البناء: `npm run build` ← الناتج في مجلد `out/`.
 
+النشر (Cloudflare Pages، مشروع `nanobyte-store`، رفع مباشر):
+
+```bash
+npm run build
+npx wrangler pages deploy out --project-name nanobyte-store --branch main
+```
+
+تغيير المنتجات والأسعار والإعدادات من لوحة التحكم لا يحتاج نشر: يظهر للزبائن فوراً.
+
 ## المراحل
 
 1. ✅ التحليل والتصميم
@@ -58,4 +69,4 @@ NEXT_PUBLIC_DEMO=1 npm run dev
 4. ربط المنتجات والصور والمخزون
 5. واتساب والطلبات والبحث
 6. PWA والاختبار
-7. النشر على Cloudflare Pages
+7. ✅ النشر على Cloudflare Pages (تم مبكراً عشان تبدأ تضيف المنتجات)
